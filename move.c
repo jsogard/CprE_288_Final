@@ -1,4 +1,7 @@
 #include "move.h"
+#include <math.h>
+
+double RADIANS = 3.14159265 / 180.0;
 
 void move(oi_t *sensor, int centimeters){
 	if(centimeters == 0) return;
@@ -15,6 +18,9 @@ void move(oi_t *sensor, int centimeters){
 		dist += sensor->distance;
 	}
 
+	abs_position_x += cos(abs_angle * RADIANS) * (float)dist;
+	abs_position_y += sin(abs_angle * RADIANS) * (float)dist;
+
 	oi_setWheels(0,0);
 }
 
@@ -23,15 +29,19 @@ void turn(oi_t *sensor, int degrees){
 
 	int angle = 0;
 	if(degrees > 0)
-		oi_setWheels(-200,200);
+		oi_setWheels(-200,200); // turn left
 	else
-		oi_setWheels(200,-200);
+		oi_setWheels(200,-200); // turn right
 
 	while((degrees > 0 && angle > -degrees) || (degrees < 0 && angle < -degrees))
 	{
 		oi_update(sensor);
 		angle += sensor->angle;
 	}
+
+	abs_angle += angle;
+	if(abs_angle >= 360) abs_angle -= 360;
+	if(abs_angle < 0) abs_angle += 360;
 
 	oi_setWheels(0,0);
 }
