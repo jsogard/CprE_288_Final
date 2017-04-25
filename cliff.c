@@ -26,18 +26,19 @@ int checkCliffs(oi_t *sensorData){
 	if(sensorData -> cliffRight){
 		//move backwards
 		//uart_transmit("Cliff on Right")
-		return 1;
+		return 2;
 	}
 	if(sensorData -> cliffFrontLeft){
 		//move backwards
 		//uart_transmit("Cliff on Front Left")
-		return 1;
+		return 3;
 	}
 	if(sensorData -> cliffFrontRight){
 		//move backwards
 		//uart_transmit("Cliff on Front Right")
-		return 1;
+		return 4;
 	}
+	return 0;
 }
 
 

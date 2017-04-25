@@ -21,17 +21,22 @@
 int checkColors(oi_t *sensorData){
 	if(sensorData->cliffRightSignal > 2600){
 		//white line on right
+		return 1;
 	}
 	if(sensorData->cliffLeftSignal > 2600){
 		//white line on let
+		return 2;
 	}
 	if(sensorData->cliffFrontLeftSignal > 2600){
 		//white line front left
+		return 3;
 	}
 	if(sensorData->cliffFrontRightSignal > 2600){
 		//white line front right
+		return 4;
 	}
 	//TODO check for the black dot in the middle of the finish area
+	return 0;
 }
 
 

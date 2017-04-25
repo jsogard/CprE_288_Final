@@ -3,9 +3,34 @@
 #include "cliff.h"
 #include "color.h"
 #include "light.h"
+#include "wifi.h"
 
 
 double RADIANS = 3.14159265 / 180.0;
+
+void handle_emergency(int code){
+	switch(emergencyCode){
+		case 1:
+			UART_transmit_string("<<Emergency on left>>");
+			break;
+		case 2:
+			UART_transmit_string("<<Emergency on right>>");
+			break;
+		case 3:
+			UART_transmit_string("<<Emergency on front left>>");
+			break;
+		case 4:
+			UART_transmit_string("<<Emergency on front right>>");
+			break;
+		case 5:
+			UART_transmit_string("<<Emergency on center left>>");
+			break;
+		case 6:
+			UART_transmit_string("<<Emergency on center right>>");
+			break;
+	}
+	UART_transmit_string("\n\r");
+}
 
 
 void move(oi_t *sensor, int centimeters){
@@ -21,12 +46,37 @@ void move(oi_t *sensor, int centimeters){
 	{
 		oi_update(sensor);
 		dist += sensor->distance;
-	}
+		
+		if(checkSensors() != 0){
+			// emergency stop
+			oi_setWheels(0,0);
 
+			// tell the driver
+			int emergencyCode;
+			if(emergencyCode = checkCliffs(sensor)){
+				UART_transmit_string("Cliff detected!");
+				handle_emergency(emergencyCode);
+			}
+			if(emergencyCode = checkColors(sensor)){
+				UART_transmit_string("Color detected!");
+				handle_emergency(emergencyCode);
+			}
+			if(emergencyCode = checkLight(sensor)){
+				UART_transmit_string("Light detected!");
+				handle_emergency(emergencyCode);
+			}
+
+			//stop going forward. emergency readjustment left to driver.
+			break; 
+		}
+	}
+	oi_setWheels(0,0);
+
+	// update position
 	abs_position_x += cos(abs_angle * RADIANS) * (float)dist;
 	abs_position_y += sin(abs_angle * RADIANS) * (float)dist;
 
-	oi_setWheels(0,0);
+	
 }
 
 void turn(oi_t *sensor, int degrees){
@@ -62,14 +112,12 @@ void escape(oi_t *sensor)
 	move(sensor,15);
 }
 
-int checkSensors(){
-	oi_t *sensorData = oi_alloc();
-	oi_init(sensorData);
+int checkSensors(oi_t *sensor){
 
 	int returner = 0;
-	returner += checkCliffs(sensorData);
-	returner += checkColors(sensorData);
-	returner += checkLight(sensorData);
+	returner += checkCliffs(sensor);
+	returner += checkColors(sensor);
+	returner += checkLight(sensor);
 
 	return returner;
 }

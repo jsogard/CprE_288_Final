@@ -4,6 +4,7 @@
 #include "lcd.h"
 #include "wifi.h"
 #include "timer.h"
+#include "sweep.h"
 #include "adc.h"
 #include <stdbool.h>
 #include "driverlib/interrupt.h"
