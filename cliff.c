@@ -12,14 +12,11 @@
 #include "driverlib/interrupt.h"
 #include "open_interface.h"
 
-void cliff_init(){
 
-	oi_t *sensorData = oi_alloc();
-	oi_init(sensorData);
-	checkCliffs(sensorData)
-
-}
-
+/**
+ * @param sensor_data Sensor data struct from robot
+ * @return 1 if there is a cliff, else 0
+ */
 int checkCliffs(oi_t *sensorData){
 	if(sensorData -> cliffLeft){
 		//move backwards

@@ -1,4 +1,8 @@
 #include "move.h"
+#include "cliff.h"
+#include "color.h"
+#include "light.h"
+
 
 void move(oi_t *sensor, int centimeters){
 	if(centimeters == 0) return;
@@ -45,4 +49,16 @@ void escape(oi_t *sensor)
 
 	turn(sensor,-90);
 	move(sensor,15);
+}
+
+int checkSensors(){
+	oi_t *sensorData = oi_alloc();
+	oi_init(sensorData);
+
+	int returner = 0;
+	returner += checkCliffs(sensorData);
+	returner += checkColors(sensorData);
+	returner += checkLight(sensorData);
+
+	return returner;
 }
