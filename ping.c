@@ -11,6 +11,21 @@
 volatile unsigned int rising_time; // start time of the return pulse
 volatile unsigned int falling_time; // end time of the return pulse
 
+float ping(){
+	uint32_t avg_time = 0, dist_mm;
+	send_pulse();
+	avg_time += ping_read();
+	timer_waitMillis(20);
+	send_pulse();
+	avg_time += ping_read();
+	timer_waitMillis(20);
+	send_pulse();
+	avg_time += ping_read();
+	avg_time /= 3;
+
+	dist_mm = time2dist(avg_time);
+	return ((float)dist_mm)/10.0;
+}
 
 //int rising_e, falling_e, read_edge = 0;
 //int main(){

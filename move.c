@@ -2,14 +2,14 @@
 #include <math.h>
 #include "cliff.h"
 #include "color.h"
-#include "light.h"
+#include "bump.h"
 #include "wifi.h"
 
 
 double RADIANS = 3.14159265 / 180.0;
 
 void handle_emergency(int code){
-	switch(emergencyCode){
+	switch(code){
 		case 1:
 			UART_transmit_string("<<Emergency on left>>");
 			break;
@@ -33,7 +33,7 @@ void handle_emergency(int code){
 }
 
 
-void move(oi_t *sensor, int centimeters){
+void mov_______e(oi_t *sensor, int centimeters){
 	if(centimeters == 0) return;
 
 	int dist = 0;
@@ -47,28 +47,29 @@ void move(oi_t *sensor, int centimeters){
 		oi_update(sensor);
 		dist += sensor->distance;
 		
-		if(checkSensors() != 0){
-			// emergency stop
-			oi_setWheels(0,0);
 
-			// tell the driver
-			int emergencyCode;
-			if(emergencyCode = checkCliffs(sensor)){
-				UART_transmit_string("Cliff detected!");
-				handle_emergency(emergencyCode);
-			}
-			if(emergencyCode = checkColors(sensor)){
-				UART_transmit_string("Color detected!");
-				handle_emergency(emergencyCode);
-			}
-			if(emergencyCode = checkLight(sensor)){
-				UART_transmit_string("Light detected!");
-				handle_emergency(emergencyCode);
-			}
-
-			//stop going forward. emergency readjustment left to driver.
-			break; 
-		}
+//		if(checkSensors() != 0){
+//			// emergency stop
+//			oi_setWheels(0,0);
+//
+//			// tell the driver
+//			int emergencyCode;
+//			if(emergencyCode = checkCliffs(sensor)){
+//				UART_transmit_string("Cliff detected!");
+//				handle_emergency(emergencyCode);
+//			}
+//			if(emergencyCode = checkColors(sensor)){
+//				UART_transmit_string("Color detected!");
+//				handle_emergency(emergencyCode);
+//			}
+//			if(emergencyCode = checkBump(sensor)){
+//				UART_transmit_string("Light detected!");
+//				handle_emergency(emergencyCode);
+//			}
+//
+//			//stop going forward. emergency readjustment left to driver.
+//			break;
+//		}
 	}
 	oi_setWheels(0,0);
 
@@ -79,7 +80,7 @@ void move(oi_t *sensor, int centimeters){
 	
 }
 
-void turn(oi_t *sensor, int degrees){
+void turn_____(oi_t *sensor, int degrees){
 	if(degrees == 0) return;
 
 	int angle = 0;
@@ -116,8 +117,8 @@ int checkSensors(oi_t *sensor){
 
 	int returner = 0;
 	returner += checkCliffs(sensor);
-	returner += checkColors(sensor);
-	returner += checkLight(sensor);
+//	returner += checkColors(sensor);
+//	returner += checkBump(sensor);
 
 	return returner;
 }

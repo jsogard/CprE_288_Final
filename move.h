@@ -16,6 +16,6 @@ void escape(oi_t *sensor);
 	  270
 */
 
-int abs_angle = 90;
-float abs_position_x = 0;
-float abs_position_y = 0;
+ int abs_angle;
+ float abs_position_x;
+ float abs_position_y;

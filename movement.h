@@ -11,10 +11,11 @@
 #include "open_interface.h";
 #define MOVEMENT_H_
 
-void move_forward(oi_t *sensor, int centimeters);
-void move_backward(oi_t *sensor, int centimeters);
-void turn_clockwise(oi_t *sensor, int degrees);
-void turn_counter_clockwise(oi_t *sensor, int degrees);
+void move_forward(int centimeters);
+void move_backward(int centimeters);
+void turn_clockwise(int degrees);
+void turn_counter_clockwise(int degrees);
 void maneuver(oi_t *sensor_data);
-
+void move(int centimeters);
+void turn(int angle);
 #endif

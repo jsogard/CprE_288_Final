@@ -169,7 +169,7 @@ void WiFi_start(){
 	GPIO_PORTB_DATA_R |= 0x4; //Enter command mode
 
 	int WIFI_START_COMMAND = 0;
-	char* WIFI_PSK = "easilyTheWorstp@sswd";
+	char* WIFI_PSK = "12345678";
 	// all under is pseudo and wrong
 //	uart_sendChar(WIFI_START_COMMAND); //Send command
 	UART_transmit(WIFI_START_COMMAND); //Send command

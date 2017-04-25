@@ -4,3 +4,8 @@ int startsWith(const char* str, const char* start){
       return str_len < start_len ? 0 : strncmp(str, start, start_len) == 0;
     }
 
+
+/**
+ * Executes a commad on the robot
+ */
+

@@ -405,7 +405,10 @@ void oi_uartSendChar(char data)
 	//For debugging
 	//timer_waitMicros(1000);
 }
-
+/**
+ * @param void
+ * @return char
+ */
 char oi_uartReceive(void)
 {
 	static int count = 0;
