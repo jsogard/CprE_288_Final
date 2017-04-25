@@ -11,6 +11,7 @@
 #include "button.h"
 #include "move.h"
 #include "math.h"
+#include "utils.h"
 
 oi_t *sensor_data;
 
@@ -37,19 +38,16 @@ float ping(){
 	return ((float)dist_mm)/10.0;
 }
 
-
-//int get_obj_length(int l_degrees, int r_degrees, int dist){
-//	double rad = (3.14159 * (double)(l_degrees - r_degrees)) / 360.0;
-//	double width = ((double)dist * sin(rad)) / cos(rad);
-//	return width * 2;
-//}
-
+/**
+ * Executes a commad on the robot
+ */
 void command_look_up(char* command){
 	if (startsWith(command, "servo")){
 		char* token = strtok(command, " ");
 		token = strtok(NULL, " ");
 		int deg = atoi(token);
 		move_servo_absolute(deg);
+
 	}else if (startsWith(command, "move")){
 		char* token = strtok(command, " ");
 		token = strtok(NULL, " ");
@@ -62,24 +60,49 @@ void command_look_up(char* command){
 		escape(sensor_data);
 	}else{
 		lcd_clear();
-		lcd_puts("Some bullshit");
+		UART_transmit_string("some bullshit\n");
+		lcd_puts("Some bullshit\n");
 	}
+	UART_transmit_string(command);
+	UART_transmit_string("\n\r");
 }
 
+/**
+ * Connects to PUTTY, takes basic commands and executes them
+ * e.g servo 10 -> this will move the servo to 10
+ */
 int main(){
 	lcd_init();
-	UART_init();
-	//WiFi_start();
+
+	oi_t *sensor_data = oi_alloc();
+	oi_init(sensor_data);
 	TIMER1_init();
 	timer_init();
 	pulse_init();
-	adc_init();
+//	adc_init(); //TODO: uncomment this
+	UART_init();
+//	WiFi_start();
 	state = LOW;
-	oi_t *sensor_data = oi_alloc();
-	oi_init(sensor_data);
+
+
 	command_look_up("servo 50");
 //	command_look_up("move 50");
-	command_look_up("escape 50");
+//	command_look_up("escape 50");
+	static char chr[100];
+	char s_data;
+	while(1){
+		int num = 0;
+		while(((s_data = UART_receive()) != '\r') && num < 20){
+			if (s_data != 10)
+				chr[num++] = s_data;
+		}
+		chr[num] = 0;
+		lcd_init();
+		lcd_puts(chr);
+		num = 0;
+
+		command_look_up(chr);
+	}
 //	int MAD_DIST = 100;
 //
 //
