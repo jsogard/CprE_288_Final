@@ -4,6 +4,17 @@
 
 oi_t *oi_sensor;
 
+void init_all(){
+	oi_sensor = oi_alloc();
+	oi_init(oi_sensor);
+	lcd_init();
+	UART_init();
+	//WiFi_start();
+	TIMER1_init();
+	timer_init();
+	pulse_init();
+	adc_init();
+}
 
 int extract_number(char* str){
 	char *i = str;
@@ -73,8 +84,6 @@ void interpret(char* command){
 
 
 int main(){
-	oi_sensor = oi_alloc();
-	oi_init(oi_sensor);
 	init_all();
 
 	while(1){

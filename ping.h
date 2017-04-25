@@ -8,7 +8,7 @@
 #ifndef PING_H_
 #define PING_H_
 
-volatile enum {LOW, HIGH, DONE} state;
+volatile enum {LOW, HIGH, DONE} state = LOW;
 
 void TIMER3B_Handler(void);
 void send_pulse();
