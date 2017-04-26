@@ -11,6 +11,10 @@
 volatile unsigned int rising_time; // start time of the return pulse
 volatile unsigned int falling_time; // end time of the return pulse
 
+/*
+* float ping() Sends a pulse out with the sonar sensor and returns the distance in centimeters.
+* @return float value of the distance of the object.
+*/
 float ping(){
 	uint32_t avg_time = 0, dist_mm;
 	send_pulse();
@@ -27,44 +31,9 @@ float ping(){
 	return ((float)dist_mm)/10.0;
 }
 
-//int rising_e, falling_e, read_edge = 0;
-//int main(){
-//	/*Configurations and inits*/
-//
-//	state = LOW;
-//	pulse_init();
-//	lcd_init();
-//	timer_init();
-//
-//
-//	uint32_t dist_mm;
-//	uint32_t avg_time = 0;
-//	while(1){
-//		send_pulse();
-//		avg_time += ping_read();
-//		timer_waitMillis(200);
-//		send_pulse();
-//		avg_time += ping_read();
-//		timer_waitMillis(200);
-//		send_pulse();
-//		avg_time += ping_read();
-//		avg_time /= 3;
-//
-//		dist_mm = time2dist(avg_time);
-//		lcd_printf("Time: %uus\nDistance: %4fcm", avg_time, ((float)dist_mm)/10.0);
-//		avg_time = 0;
-//		timer_waitMillis(500);
-//	}
-//	return 0;
-//}
-
-//void IntRegister(int interrupt_num, void (*handler)(void)){
-//
-//}
-
-
-
-/* ping sensor related to ISR */
+/**
+* void TIMER3B_Handler(void) ping sensor interrupt handler related to ISR.
+*/
 void TIMER3B_Handler(void){
 	TIMER3_ICR_R |= TIMER_ICR_CBECINT;
 	int event_time = TIMER3_TBR_R;
@@ -77,7 +46,9 @@ void TIMER3B_Handler(void){
 	}
 }
 
-/* send out a pulse on PB3 */
+/** 
+* void send_pulse() Sends out a pulse with the sonar sensor on PB3.
+*/
 void send_pulse(){
 	TIMER3_CTL_R &= ~( TIMER_CTL_TBEN); //disable timerB to allow us to change settings
 	GPIO_PORTB_PCTL_R &= ~(0x7000);
@@ -98,34 +69,40 @@ void send_pulse(){
 
 }
 
-/* convert time in clock counts to single-trip distance in mm */
+/**
+* unsigned int time2dist(unsigned int time) convert time in clock counts to single-trip distance in mm
+* @return int value of single-trip distance in mm
+*/
 unsigned int time2dist(unsigned int time){
 	return 0.011*time;
 }
 
-/* start and read the ping sensor once, return distance in mm */
+/**
+* unsigned int ping_read() start and read the ping sensor once, return distance in mm
+* @return Integer value of the ping's return distance in mm
+*/
 unsigned int ping_read(){
 
-	// send the starting pulse to PING
-	// TODO get time of the rising edge of the pulse
 	while (state != DONE);
 	state = LOW;
 	if(rising_time > falling_time)
 		return pow(2, 24) - 1 - rising_time + falling_time;
 	return falling_time - rising_time;
 
-//	uint32_t rising_e =  TIMER3_TBR_R;
-	// TODO get time of the falling edge of the pulse
-	// Calculate the width of the pulse; convert to centimeters
-
 }
 
+/**
+* void pulse_init() Initializes the correct GPIO ports for sending a pulse.
+*/
 void pulse_init(){
 	SYSCTL_RCGCGPIO_R |= BIT1;
 	GPIO_PORTB_AFSEL_R &= ~BIT3;
 	GPIO_PORTB_DEN_R |= 0x08;
 }
 
+/**
+* void timer_init() Initializes the correct registers and ports for TIMER3 for sending a pulse, and starting an interrupt service routine with a handler.
+*/
 void timer_init(){
 	SYSCTL_RCGCTIMER_R |= SYSCTL_RCGCTIMER_R3; // Turn on clock to TIMER3
 
