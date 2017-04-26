@@ -45,6 +45,10 @@ void TIMER1_init()
 
 /**
 * void move_servo_absolute(float degree) Takes in an absolute degree value and moves the servo motor to that value if it is within 0 and 180 degrees.
+	    90
+		^
+		|
+180 <---+---> 0
 * @param degree	The degree value you want to move the servo to, from 0 to 180.
 */ 
 void move_servo_absolute(float degree)

@@ -27,14 +27,11 @@
 int checkColors(oi_t *sensorData){
 	int ret = 0;
 
+	//Right
 	if(sensorData->cliffRightSignal > 2700){
 		//return white line on right
 		UART_transmit_string("White Line on Right\r\n");
 		ret = 1;
-
-//	else if(sensorData->cliffRightSignal > 1600){
-//		//normal ground
-////		UART_transmit_string("Right's good, move on brother!");
 	}else if(sensorData->cliffRightSignal > 400 && sensorData->cliffRightSignal < 1200){
 		//black square
 		UART_transmit_string("Black on Right\r\n");
@@ -45,14 +42,11 @@ int checkColors(oi_t *sensorData){
 		ret = 1;
 	}
 
+	//Left
 	if(sensorData->cliffLeftSignal > 2600){
 		//white line on let
 		UART_transmit_string("White Line on Left\r\n");
 		ret = 1;
-
-//	else if(sensorData->cliffLeftSignal > 1600){
-//		//normal ground
-////		UART_transmit_string("Left's good, move on brother!");
 	}else if(sensorData->cliffLeftSignal > 400 && sensorData->cliffLeftSignal < 1200){
 		//black square
 		UART_transmit_string("Black on Left\r\n");
@@ -63,13 +57,11 @@ int checkColors(oi_t *sensorData){
 		ret = 1;
 	}
 
+	//Front Left
 	if(sensorData->cliffFrontLeftSignal > 2600){
 		//white line front left
 		UART_transmit_string("White Line on Front Left\r\n");
 		ret = 1;
-//	else if(sensorData->cliffFrontLeftSignal > 1600){
-//		//normal ground
-////		UART_transmit_string("Front Left's good, move on brother!");
 	}else if(sensorData->cliffFrontLeftSignal > 400 && sensorData->cliffFrontLeftSignal < 1200){
 		//black square
 		UART_transmit_string("Black Line on Front Left\r\n");
@@ -80,13 +72,11 @@ int checkColors(oi_t *sensorData){
 		ret = 1;
 	}
 
+	//Front Right
 	if(sensorData->cliffFrontRightSignal > 2600){
 		//white line front right
 		UART_transmit_string("White Line on Front Right\r\n");
 		ret = 1;
-//	else if(sensorData->cliffFrontRightSignal > 1600){
-//		//normal ground
-////		UART_transmit_string("Front Right's good, move on brother!");
 	}else if(sensorData->cliffFrontRightSignal > 400 && sensorData->cliffFrontRightSignal < 1200){
 		//black square
 		UART_transmit_string("Black Line on Front Right\r\n");
@@ -96,6 +86,7 @@ int checkColors(oi_t *sensorData){
 		UART_transmit_string("Cliff on Front Right\r\n");
 		ret = 1;
 	}
+	
 	return ret;
 }
 

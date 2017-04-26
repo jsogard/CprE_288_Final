@@ -5,48 +5,9 @@
 #include "button.h"
 #include "wifi.h"
 
-//int main(){
-//	lcd_init();
-//	UART_init();
-//	button_init();
-//	uint8_t num = 0;
-//	char s_data, chr[21];
-//	chr[20] = '\0';
-//	uint8_t prev = -1, button;
-//
-//	WiFi_start();
-//	while(1){
-//
-//
-//		button = button_getButton();
-//		if(prev != button){
-//			UART_handle_button(button);
-//			//timer_waitMillis(100);
-//			prev = button;
-//		}
-//		WiFi_stop();
-//
-//
-//		/* PART 2
-//		s_data = UART_receive();
-//		lcd_putc(s_data);
-//		UART_transmit(s_data);
-//		 */
-//
-//		/*	PART 1
-//		while(((s_data = UART_receive()) != '\r') && num < 20){
-//			chr[num] = s_data;
-//			//lcd_putc(chr[num]);
-//			num++;
-//		}
-//		chr[num] = 0;
-//		lcd_init();
-//		lcd_puts(chr);
-//		num = 0;
-//	*/
-//	}
-//}
-
+/**
+* void UART_init() Initializes all of the correct registers and ports for using wifi.
+*/
 void UART_init(){
 	//enable clock to GPIO, R1 = port B
 	SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R1;
@@ -94,37 +55,10 @@ void UART_init(){
 
 }
 
-void UART_handle_button(int button){
-	if(button == 0)
-		return;
-
-	char* str;
-
-	switch(button){
-	case 6:
-		str = "Yes";
-		break;
-	case 5:
-		str = "No";
-		break;
-	case 4:
-		str =  "Blue, no green, Ahhhhh!!!";
-		break;
-	case 3:
-		str = "This is button 3";
-		break;
-	case 2:
-		str = "2 two ";
-		break;
-	case 1:
-		str = "number 1";
-		break;
-	}
-
-	UART_transmit_string(str);
-
-}
-
+/**
+* void UART_transmit_string(char* str) sends the inputted character array to the computer over wifi.
+* @param sdata The character array to send.
+*/
 void UART_transmit_string(char* str){
 	//lcd_init();
 	while(UART1_FR_R & 0x20);
@@ -136,6 +70,10 @@ void UART_transmit_string(char* str){
 	}
 }
 
+/**
+* void UART_transmit(char sdata) sends the inputted character to the computer over wifi.
+* @param sdata The character to send.
+*/
 void UART_transmit(char sdata){
 
 	while(UART1_FR_R & 0x20);
@@ -149,6 +87,10 @@ void UART_transmit(char sdata){
 	UART1_DR_R = sdata;
 }
 
+/**
+* char UART_receive() waits to receive data over wifi, then returns that data.
+* @return char data received over wifi
+*/
 char UART_receive(){
 	char data = 0;
 
@@ -165,13 +107,15 @@ void wifi_init(){
 
 }
 
+/**
+* void WiFi_start() Starts the wifi service on the robot, allowing the computer to connect. 
+*/
 void WiFi_start(){
 	GPIO_PORTB_DATA_R |= 0x4; //Enter command mode
 
 	int WIFI_START_COMMAND = 0;
 	char* WIFI_PSK = "12345678";
-	// all under is pseudo and wrong
-//	uart_sendChar(WIFI_START_COMMAND); //Send command
+	
 	UART_transmit(WIFI_START_COMMAND); //Send command
 
 	UART_transmit_string(WIFI_PSK); //Send WiFi PSK
@@ -180,7 +124,6 @@ void WiFi_start(){
 
 	int response = UART_receive(); //Wait for response
 
-//	commandPin = 0; //Leave command mode
 	GPIO_PORTB_DATA_R &= 0b11111011;
 
 	if(response != 0) {
@@ -202,8 +145,9 @@ Connection type: Raw
  *
  */
 
-
-
+ /**
+ * void WiFi_stop() stops the wifi service.
+ */
 void WiFi_stop(){
 	GPIO_PORTB_DATA_R |= 0x4; //Enter command mode//Enter command mode
 

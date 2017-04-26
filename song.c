@@ -1,10 +1,9 @@
-<<<<<<< HEAD
-=======
+/*
  *  Created on: Apr 24, 2017
  *      Author: ethantw
  */
 
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
+
 #include <stdio.h>
 #include <stdbool.h>
 #include "timer.h"

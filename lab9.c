@@ -30,6 +30,9 @@ typedef struct object{
 
 void command_look_up(char* command);
 
+/**
+* void print_oi_status() sends the current status of the robot over wifi.
+*/
 void print_oi_status(){
 	char str[80];
 	sprintf(str, "OI STATUS:\r\n\
@@ -54,12 +57,10 @@ int main(){
 	pulse_init();
 	adc_init(); //TODO: uncomment this
 	UART_init();
-
-	WiFi_start();
+	button_init();
 	state = LOW;
 
-	/*
-	 *
+/*
 115200 speed (baud)
 8 Data bits
 No Parity
@@ -68,34 +69,7 @@ No flow control
 Host Name: 192.168.1.1
 Port: 42880
 Connection type: Raw
-	 *
-	 */
-
-
-//    oi_t *sensor_data = oi_alloc();
-//    oi_init(sensor_data);
-//
-//	while(1){
-//		static char msg[40];
-//		oi_update(sensor_data);
-//		sprintf(msg, "CLiff %d cliffLeftSignal\r\n", sensor_data->lightBumpLeftSignal);
-//		UART_transmit_string(msg);
-//		sprintf(msg, "CLiff %d cliffFrontLeftSignal\r\n", sensor_data->lightBumpFrontLeftSignal);
-//		UART_transmit_string(msg);
-//		sprintf(msg, "CLiff %d cliffFrontRightSignal\r\n", sensor_data->lightBumpCenterLeftSignal);
-//		UART_transmit_string(msg);
-//		sprintf(msg, "CLiff %d cliffLeftSignal\r\n", sensor_data->lightBumpRightSignal);
-//		UART_transmit_string(msg);
-//		sprintf(msg, "CLiff %d cliffFrontLeftSignal\r\n", sensor_data->lightBumpFrontRightSignal);
-//		UART_transmit_string(msg);
-//		sprintf(msg, "CLiff %d cliffFrontRightSignal\r\n", sensor_data->lightBumpCenterRightSignal);
-//		UART_transmit_string(msg);
-//		timer_waitMillis(3000);
-//	}
-//
-//
-//	oi_free(sensor_data);
-
+*/
 
 	abs_angle = 90;
 	abs_position_x = 0;
@@ -103,6 +77,16 @@ Connection type: Raw
 
 	static char chr[100];
 	char s_data;
+	int pass = 0;
+	while(pass == 0){
+		switch(button_getButton()){
+			case 1:
+				WiFi_start();
+				pass = 1;
+			case 2:
+				pass = 1;
+		}
+	}
 	while(1){
 		int num = 0;
 		while(((s_data = UART_receive()) != '\r') && num < 20){
@@ -121,6 +105,10 @@ Connection type: Raw
 	return 0;
 }
 
+/**
+* void command_look_up(char* command) Takes a chacter array command and parses the command from it. Commands allow you to: move while checking sensors, move without checking sensors, turn, sweep the servo, and play a song.
+* @param command the command you are giving to the robot.
+*/
 void command_look_up(char* command){
 	if (startsWith(command, "servo")){
 		get_objects_sweep();
@@ -149,10 +137,12 @@ void command_look_up(char* command){
 		playSong();
 		oi_free(sensor_data);
 		// dat song ish
+	}else if(startsWith(command, "help")){
+		UART_transmit_string("servo\r\nmove + int\r\nFmove + int\r\nturn + int\r\nsong\r\n");
 	}else{
 		lcd_clear();
-		UART_transmit_string("some bullshit\n");
-		lcd_puts("Some bullshit\n");
+		UART_transmit_string("Type help\r\n");
+		lcd_puts("Type help\n");
 	}
 	UART_transmit_string(command);
 	UART_transmit_string("\n\r");

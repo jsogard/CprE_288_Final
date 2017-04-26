@@ -14,16 +14,9 @@ void escape(oi_t *sensor);
 		|
 		v
 	  270
-<<<<<<< HEAD
-*//*
-=======
-*/
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 
  int abs_angle;
  float abs_position_x;
  float abs_position_y;
-<<<<<<< HEAD
 */
-=======
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
+

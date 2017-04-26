@@ -18,7 +18,6 @@ void turn_counter_clockwise(int degrees);
 void maneuver(oi_t *sensor_data);
 void move(int centimeters);
 void turn(int angle);
-<<<<<<< HEAD
 
 
 /*
@@ -35,7 +34,4 @@ void turn(int angle);
  float abs_position_x;
  float abs_position_y;
 
-
-=======
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 #endif
