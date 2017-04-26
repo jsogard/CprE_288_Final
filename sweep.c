@@ -8,6 +8,7 @@
 #include "adc.h"
 #include <stdbool.h>
 #include "button.h"
+#include <inc/tm4c123gh6pm.h>
 
 
 #include "math.h"
