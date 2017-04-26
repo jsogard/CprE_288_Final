@@ -14,10 +14,11 @@
 
 
 /**
+ * int checkBump(oi_t *sensorData) Checks the current open_interface sensor data for the light bumpers, and the actual bumpers to see if anything is detected to prevent moving objects, and to ensure the bot stops when something is detected. 
+ * @param oi_t *sensorData the current open_interface sensor data
  * @return 1 if a sensor is triggered
  */
 int checkBump(oi_t *sensorData){
-<<<<<<< HEAD
 	static char msg[40];
 	int ret = 0;
 	if(sensorData->lightBumpLeftSignal > 150){
@@ -50,39 +51,14 @@ int checkBump(oi_t *sensorData){
 		UART_transmit_string(msg);
 		ret = 1;
 	}
+	if(sensorDta->bumpLeft){
+		UART_transmit_string("Left Bumper Triggered");
+		ret = 1;
+	}
+	if(sensorData->bumpRight){
+		UART_transmit_string("Right Bumper Triggered");
+		ret = 1;
+	}
 	return ret;
-=======
-	if(sensorData->lightBumpLeftSignal > 650){
-		//stop
-		//uart_transmit("Boulder on left")
-		return 1;
-	}
-	if(sensorData->lightBumpFrontLeftSignal > 650){
-		//stop
-		//uart_transmit("Boulder on front left")
-		return 3;
-	}
-	if(sensorData->lightBumpCenterLeftSignal > 650){
-		//stop
-		//uart_transmit("boulder on center left")
-		return 5;
-	}
-	if(sensorData->lightBumpCenterRightSignal > 650){
-		//stop
-		//uart_transmit("boulder on center right")
-		return 6;
-	}
-	if(sensorData->lightBumpFrontRightSignal > 650){
-		//stop
-		//uart_transmit("boulder on front right")
-		return 4;
-	}
-	if(sensorData->lightBumpRightSignal > 650){
-		//stop
-		//uart_transmit("boulder on right")
-		return 2;
-	}
-	return 0;
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 }
 
