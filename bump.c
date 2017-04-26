@@ -14,7 +14,7 @@
 
 
 /**
- * int checkBump(oi_t *sensorData) Checks the current open_interface sensor data for the light bumpers, and the actual bumpers to see if anything is detected to prevent moving objects, and to ensure the bot stops when something is detected. 
+ * int checkBump(oi_t *sensorData) Checks the current open_interface sensor data for the light bumpers, and the actual bumpers to see if anything is detected to prevent moving objects, and ensure the bot stops when something is detected. 
  * @param oi_t *sensorData the current open_interface sensor data
  * @return 1 if a sensor is triggered
  */
