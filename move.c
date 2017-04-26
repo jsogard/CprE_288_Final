@@ -1,17 +1,9 @@
 #include "move.h"
 #include <math.h>
-<<<<<<< HEAD
 #include "color.h"
 #include "bump.h"
 #include "wifi.h"
 /*
-=======
-#include "cliff.h"
-#include "color.h"
-#include "bump.h"
-#include "wifi.h"
-
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 
 double RADIANS = 3.14159265 / 180.0;
 
@@ -129,7 +121,4 @@ int checkSensors(oi_t *sensor){
 
 	return returner;
 }
-<<<<<<< HEAD
 */
-=======
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3

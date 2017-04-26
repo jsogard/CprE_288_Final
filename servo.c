@@ -18,8 +18,9 @@ uint32_t pulse_period = 0x4E200; // pulse period in cycles\
 float cybot_m = 150;
 float cybot_b = 8200;
 
-
-
+/**
+* void TIMER1_init() Initializes the correct ports and registers for moving the servo motor.
+*/
 void TIMER1_init()
 {
 	//***set GPIO PB5, turn on clk, alt. function, output, enable***
@@ -42,6 +43,10 @@ void TIMER1_init()
 	move_servo_absolute(0);
 }
 
+/**
+* void move_servo_absolute(float degree) Takes in an absolute degree value and moves the servo motor to that value if it is within 0 and 180 degrees.
+* @param degree	The degree value you want to move the servo to, from 0 to 180.
+*/ 
 void move_servo_absolute(float degree)
 {
 	if(degree > 180)
@@ -59,11 +64,18 @@ void move_servo_absolute(float degree)
 	curr_angle = degree;
 }
 
+/**
+* void move_servo_relative(float degree) Moves the servo motor to a value relative to the current value by calling move_servo_absolute with the current degree +/- input degree.
+* @param degree the input degree to move the servo relative to the current degree
+*/
 void move_servo_relative(float degree)
 {
 	move_servo_absolute(curr_angle + degree);
 }
 
+/**
+* void configure_servo() Configures the servo motor for use.
+*/
 void configure_servo()
 {
 	int i;

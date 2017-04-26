@@ -15,10 +15,7 @@
 #include "movement.h"
 #include "math.h"
 #include "utils.h"
-<<<<<<< HEAD
 #include "song.h"
-=======
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 
 //oi_t *sensor_data;
 
@@ -29,7 +26,6 @@ typedef struct object{
 	uint32_t r_degrees;
 } obstacle;
 
-<<<<<<< HEAD
 
 
 void command_look_up(char* command);
@@ -42,26 +38,7 @@ void print_oi_status(){
 				  Angle: %3d\r\n" ,(int)abs_position_x, (int)abs_position_y, abs_angle );
 	UART_transmit_string(str);
 }
-=======
-void command_look_up(char* command);
 
-
-//int madddin() {
-//    oi_t *sensor_data = oi_alloc();
-//    oi_init(sensor_data);
-//
-//    int sum = 0;
-//    oi_setWheels(500, 500); // move forward; full speed
-//    while (sum < 1000) {
-//        oi_update(sensor_data);
-//        sum += sensor_data->distance;
-//    }
-//    oi_setWheels(0, 0); // stop
-//
-//    oi_free(sensor_data);
-//    return 0;
-//}
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 
 /**
  * Connects to PUTTY, takes basic commands and executes them
@@ -77,7 +54,7 @@ int main(){
 	pulse_init();
 	adc_init(); //TODO: uncomment this
 	UART_init();
-<<<<<<< HEAD
+
 	WiFi_start();
 	state = LOW;
 
@@ -124,14 +101,6 @@ Connection type: Raw
 	abs_position_x = 0;
 	abs_position_y = 0;
 
-=======
-//	WiFi_start();
-	state = LOW;
-
-//	command_look_up("cservo 50");
-	command_look_up("move 10");
-//	command_look_up("escape 50");
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 	static char chr[100];
 	char s_data;
 	while(1){
@@ -160,7 +129,6 @@ void command_look_up(char* command){
 		token = strtok(NULL, " ");
 		int dist = atoi(token);
 		move(dist);
-<<<<<<< HEAD
 		print_oi_status();
 	}else if (startsWith(command, "Fmove")){
 		char* token = strtok(command, " ");
@@ -181,23 +149,6 @@ void command_look_up(char* command){
 		playSong();
 		oi_free(sensor_data);
 		// dat song ish
-=======
-	}else if (startsWith(command, "turn")){
-			char* token = strtok(command, " ");
-			token = strtok(NULL, " ");
-			int dist = atoi(token);
-			turn(dist);
-	}else if (startsWith(command, "song")){
-		char* token = strtok(command, " ");
-		token = strtok(NULL, " ");
-		int dist = atoi(token);
-
-	}else if (startsWith(command, "oservo")){
-		char* token = strtok(command, " ");
-		token = strtok(NULL, " ");
-		int deg = atoi(token);
-		move_servo_absolute(deg);
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 	}else{
 		lcd_clear();
 		UART_transmit_string("some bullshit\n");
