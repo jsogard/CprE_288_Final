@@ -7,7 +7,6 @@
 #include "sweep.h"
 #include "adc.h"
 #include <stdbool.h>
-#include "driverlib/interrupt.h"
 #include "button.h"
 
 
