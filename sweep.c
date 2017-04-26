@@ -50,7 +50,7 @@ void get_objects_sweep(){
 	static uint32_t data[3][90];
 	int data_index = 0;
 
-	char[81][40] cmap;
+	char cmap[81][40];
 	int i, j, dx, dy;
 	for(i = 0; i < 81; i++){
 		for(j = 0; j < 40; j++){
