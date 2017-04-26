@@ -44,8 +44,8 @@ void get_objects_sweep(){
 
 	int MAD_DIST = 100;
 
-//	configure_servo();
-	obstacle obstacles[30];
+	//	configure_servo();
+	obstacle obstacles[10];
 	int o_index = 0;
 	static uint32_t data[3][90];
 	int data_index = 0;
@@ -90,7 +90,7 @@ void get_objects_sweep(){
 	}
 
 	/* INTERPRET DATA FOR OBSTACLES */
-	uint32_t i, prev_ir = 81, degree_length = 0, min_dist = 0, max_dist = 0;
+	uint32_t prev_ir = 81, degree_length = 0, min_dist = 0, max_dist = 0;
 	float avg_dist = 0;
 	obstacle *smallest;
 	int counting = 0;
@@ -105,9 +105,9 @@ void get_objects_sweep(){
 				continue;
 			}
 
-			double angle = (double)obstacle[o_index].r_degrees;
-			double dist = (double)obstacle[o_index].distance;
-			int width = obstacle[o_index].width;
+			double angle = (double)obstacles[o_index].r_degrees;
+			double dist = (double)obstacles[o_index].distance;
+			int width = obstacles[o_index].width;
 			int x = cos(angle*3.1415926/180.0)*dist + 40;
 			int y = 39 - sin(angle*3.1415926/180.0)*dist;
 			for(i = x; i > x-width/2; i--)
@@ -151,9 +151,9 @@ void get_objects_sweep(){
 
 		if(obstacles[o_index].width > 5){
 
-			double angle = (double)obstacle[o_index].r_degrees;
-			double dist = (double)obstacle[o_index].distance;
-			int width = obstacle[o_index].width;
+			double angle = (double)obstacles[o_index].r_degrees;
+			double dist = (double)obstacles[o_index].distance;
+			int width = obstacles[o_index].width;
 			int x = cos(angle*3.1415926/180.0)*dist + 40;
 			int y = 39 - sin(angle*3.1415926/180.0)*dist;
 			for(i = x; i > x-width/2; i--)
