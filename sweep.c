@@ -23,21 +23,28 @@ typedef struct object{
 
 
 
-
+/**
+* int get_obj_length(int l_degrees, int r_degrees, int dist) given the left most point of an object, the right most point, and the ditance after a sweep, this function then computes the linear width of the object.
+* @param l_degrees	the left most point of the object in the sweep
+* @param r_degrees	the right most point of the object in the sweep
+* @param dist 	the distance of the object
+* @return Integer linear width of object.
+*/
 int get_obj_length(int l_degrees, int r_degrees, int dist){
 	double rad = (3.14159 * (double)(l_degrees - r_degrees)) / 360.0;
 	double width = ((double)dist * sin(rad)) / cos(rad);
 	return width * 2;
 }
 
+/**
+* void get_objects_sweep() This function sweeps the servo motor while scanning with the ping and ir sensors and prints out each object that it finds while sweeping.
+*/
 void get_objects_sweep(){
 	state = LOW;
 
 	int MAD_DIST = 100;
 
-
 //	configure_servo();
-
 	obstacle obstacles[30];
 	int o_index = 0;
 	static uint32_t data[3][90];
@@ -48,7 +55,6 @@ void get_objects_sweep(){
 	UART_transmit_string("|-------+------+------|\n\r");
 
 	/* GATHER ANGLE, DISTANCE DATA */
-
 	float degrees = 0;
 	double ir;
 	uint32_t sonar;
@@ -72,7 +78,6 @@ void get_objects_sweep(){
 	}
 
 	/* INTERPRET DATA FOR OBSTACLES */
-
 	uint32_t i, prev_ir = 81, degree_length = 0, min_dist = 0, max_dist = 0;
 	float avg_dist = 0;
 	obstacle *smallest;
