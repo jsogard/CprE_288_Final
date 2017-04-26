@@ -9,6 +9,7 @@
 #define BUMP_H_
 
 #include "open_interface.h"
+#include <inc/tm4c123gh6pm.h>
 
 int checkBump(oi_t *sensorData);
 

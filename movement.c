@@ -122,7 +122,7 @@ void turn_clockwise(int degrees){
 
     oi_setWheels(-200, 200); // turn
 
-    while (angleChange > (degrees*-1) + 3) {
+    while (angleChange > (degrees*-1)) {
         oi_update(sensor_data);
         angleChange += sensor_data->angle;
     }
@@ -149,7 +149,7 @@ void turn_counter_clockwise(int degrees){
 
     oi_setWheels(200, -200); // turn
 
-    while (angleChange < (degrees-3)) {
+    while (angleChange < (degrees)) {
         oi_update(sensor_data);
         angleChange += sensor_data->angle;
     }

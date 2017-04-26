@@ -2,7 +2,7 @@
 
 #include "lcd.h"
 #include "timer.h"
-#include "driverlib/interrupt.h"
+#include <inc/tm4c123gh6pm.h>
 #include <stdbool.h>
 #include "ping.h"
 #include <math.h>
@@ -16,19 +16,34 @@ volatile unsigned int falling_time; // end time of the return pulse
 * @return float value of the distance of the object.
 */
 float ping(){
-	uint32_t avg_time = 0, dist_mm;
+	uint32_t avg_time = 0, dist_cm;
 	send_pulse();
 	avg_time += ping_read();
-	timer_waitMillis(20);
+	timer_waitMillis(10);
 	send_pulse();
 	avg_time += ping_read();
-	timer_waitMillis(20);
+	timer_waitMillis(10);
 	send_pulse();
 	avg_time += ping_read();
 	avg_time /= 3;
 
-	dist_mm = time2dist(avg_time);
-	return ((float)dist_mm)/10.0;
+	dist_cm = time2dist(avg_time);
+	return ((float)dist_cm);
+}
+
+float ping_raw(){
+	uint32_t avg_time = 0, dist_mm;
+	send_pulse();
+	avg_time += ping_read();
+	timer_waitMillis(10);
+	send_pulse();
+	avg_time += ping_read();
+	timer_waitMillis(10);
+	send_pulse();
+	avg_time += ping_read();
+	avg_time /= 3;
+
+	return (float) avg_time;
 }
 
 /**
@@ -74,7 +89,10 @@ void send_pulse(){
 * @return int value of single-trip distance in mm
 */
 unsigned int time2dist(unsigned int time){
-	return 0.011*time;
+	//return 0.011*time;
+	return (float) ((0.0011*time) - 0.9082);
+
+
 }
 
 /**

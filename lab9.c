@@ -78,6 +78,7 @@ Connection type: Raw
 	static char chr[100];
 	char s_data;
 	int pass = 0;
+	lcd_puts("press button 1      Or button 2");
 	while(pass == 0){
 		switch(button_getButton()){
 			case 1:
@@ -87,6 +88,8 @@ Connection type: Raw
 				pass = 1;
 		}
 	}
+	lcd_clear();
+	lcd_puts("continuing");
 	while(1){
 		int num = 0;
 		while(((s_data = UART_receive()) != '\r') && num < 20){
@@ -94,7 +97,7 @@ Connection type: Raw
 				chr[num++] = s_data;
 		}
 		chr[num] = 0;
-		lcd_init();
+		lcd_clear();
 		lcd_puts(chr);
 		num = 0;
 
@@ -112,6 +115,14 @@ Connection type: Raw
 void command_look_up(char* command){
 	if (startsWith(command, "servo")){
 		get_objects_sweep();
+	}else  if (startsWith(command, "ping")){
+		static char msg[8];
+		snprintf(msg, 8, "%f", ping());
+		UART_transmit_string(msg);
+	}else  if (startsWith(command, "ir")){
+			static char msg[8];
+			snprintf(msg, 8, "%f", ADC_read(0));
+			UART_transmit_string(msg);
 	}else if (startsWith(command, "move")){
 		char* token = strtok(command, " ");
 		token = strtok(NULL, " ");
@@ -130,7 +141,13 @@ void command_look_up(char* command){
 		int dist = atoi(token);
 		turn(dist);
 		print_oi_status();
-	}else if (startsWith(command, "song")){
+	}else if (startsWith(command, "cservo")){
+		char* token = strtok(command, " ");
+		token = strtok(NULL, " ");
+		 int deg = atoi(token);
+		 move_servo_absolute(deg);
+	}
+	else if (startsWith(command, "song")){
 		oi_t *sensor_data = oi_alloc();
 		oi_init(sensor_data);
 		loadSong();

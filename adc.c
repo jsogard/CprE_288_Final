@@ -1,5 +1,5 @@
 #include "math.h"
-
+#include <inc/tm4c123gh6pm.h>
 #include "lcd.h"
 #include "timer.h"
 #include "button.h"

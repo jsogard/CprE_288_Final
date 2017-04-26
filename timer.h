@@ -21,9 +21,6 @@
 
 typedef uint32_t clock_t;
 
-#include <inc/tm4c123gh6pm.h>
-#include <stdint.h>
-
 extern volatile uint32_t _timer_ticks;
 
 void timer_waitMillis(uint32_t millis);

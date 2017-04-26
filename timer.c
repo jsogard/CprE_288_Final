@@ -4,7 +4,9 @@
  *  @author Eric Middleton
  */
 
-#include "Timer.h"
+#include <inc/tm4c123gh6pm.h>
+#include <stdint.h>
+#include "timer.h"
 
 volatile uint32_t _timer_ticks;
 

@@ -4,10 +4,9 @@
 #include "timer.h"
 #include "adc.h"
 #include <stdbool.h>
-#include "driverlib/interrupt.h"
 #include "button.h"
 #include "servo.h"
-
+#include <inc/tm4c123gh6pm.h>
 #include "math.h"
 
 
@@ -15,8 +14,8 @@ float curr_angle;
 bool clockwise = true;
 uint32_t pulse_period = 0x4E200; // pulse period in cycles\
 
-float cybot_m = 150;
-float cybot_b = 8200;
+float cybot_m = 150 * 1.096;
+float cybot_b = 8100;
 
 /**
 * void TIMER1_init() Initializes the correct ports and registers for moving the servo motor.

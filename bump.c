@@ -51,7 +51,7 @@ int checkBump(oi_t *sensorData){
 		UART_transmit_string(msg);
 		ret = 1;
 	}
-	if(sensorDta->bumpLeft){
+	if(sensorData->bumpLeft){
 		UART_transmit_string("Left Bumper Triggered");
 		ret = 1;
 	}

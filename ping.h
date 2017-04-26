@@ -16,6 +16,7 @@ unsigned int ping_read();
 unsigned int time2dist(unsigned int time);
 //void IntRegister(int interrupt_num, void (*handler)(void));
 void pulse_init();
+float ping_raw();
 void timer_init();
 
 #endif /* PING_H_ */

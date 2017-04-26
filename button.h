@@ -9,7 +9,6 @@
 #define BUTTON_H_
 
 #include <stdint.h>
-
 #include <inc/tm4c123gh6pm.h>
 
 //initialize the push buttons
