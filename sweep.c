@@ -43,7 +43,9 @@ void get_objects_sweep(){
 	static uint32_t data[3][90];
 	int data_index = 0;
 
-	UART_transmit_string("Degrees\tIR   \tSonar\n\r");
+	UART_transmit_string(" _____________________\n\r");
+	UART_transmit_string("|Degrees|    IR| Sonar|\n\r");
+	UART_transmit_string("|-------+------+------|\n\r");
 
 	/* GATHER ANGLE, DISTANCE DATA */
 
@@ -55,7 +57,8 @@ void get_objects_sweep(){
 		ir = adc_convert(ADC_read(0));
 		sonar = ping();
 		static char res[50];
-		sprintf(res, "%7d\t%5d\t%5d\n\r", (int)degrees,(int)ir,(int)sonar);
+
+		sprintf(res, "|%7d| %5d| %5d|\n\r", (int)degrees,(int)ir,(int)sonar);
 		data[0][data_index] = degrees;
 		data[1][data_index] = ir;
 		data[2][data_index++] = sonar;
@@ -63,7 +66,7 @@ void get_objects_sweep(){
 		lcd_init();
 		lcd_printf(res);
 		UART_transmit_string(res);
-		timer_waitMillis(50);
+		timer_waitMillis(5);
 		degrees += 2;
 		move_servo_absolute(degrees);
 	}

@@ -55,7 +55,7 @@ void move_servo_absolute(float degree)
 //	TIMER1_TBMATCHR_R = period_width - pulse_width; // set pulse width
 	// you need to call timer_waitMillis( ) here to enforce a delay for the servo to
 	// move to the position
-	timer_waitMillis(20);
+	timer_waitMillis(5);
 	curr_angle = degree;
 }
 
