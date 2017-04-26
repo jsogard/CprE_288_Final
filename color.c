@@ -11,19 +11,20 @@
 #include <stdbool.h>
 #include "timer.h"
 #include "lcd.h"
-<<<<<<< HEAD
 #include "wifi.h"
-=======
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 #include "driverlib/interrupt.h"
 #include "open_interface.h"
 
 /**
+ * int checkColors(oi_t *sensorData) Takes in the current open_interface sensor data and checks eachs color sensor to see if there's 
+ * 1) a cliff
+ * 2) a white line
+ * 3) any black
+ * It then sends to putty anything that was detected and returns 1 if anything was detected, otherwise it returns 0.
  * @param sensorData data from the sensor struct
  * @return 1 if the sensor is triggered, else 0
  */
 int checkColors(oi_t *sensorData){
-<<<<<<< HEAD
 	int ret = 0;
 
 	if(sensorData->cliffRightSignal > 2700){
@@ -95,29 +96,7 @@ int checkColors(oi_t *sensorData){
 		UART_transmit_string("Cliff on Front Right\r\n");
 		ret = 1;
 	}
-
-	//TODO check for the black dot in the middle of the finish area
 	return ret;
-=======
-	if(sensorData->cliffRightSignal > 2600){
-		//white line on right
-		return 1;
-	}
-	if(sensorData->cliffLeftSignal > 2600){
-		//white line on let
-		return 2;
-	}
-	if(sensorData->cliffFrontLeftSignal > 2600){
-		//white line front left
-		return 3;
-	}
-	if(sensorData->cliffFrontRightSignal > 2600){
-		//white line front right
-		return 4;
-	}
-	//TODO check for the black dot in the middle of the finish area
-	return 0;
->>>>>>> f99f345c9f2d864f0ef1962f2b050c2b996bdbf3
 }
 
 
