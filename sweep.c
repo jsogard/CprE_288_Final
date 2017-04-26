@@ -50,6 +50,18 @@ void get_objects_sweep(){
 	static uint32_t data[3][90];
 	int data_index = 0;
 
+	char[81][40] cmap;
+	int i, j, dx, dy;
+	for(i = 0; i < 81; i++){
+		for(j = 0; j < 40; j++){
+			dx = i - 40;
+			dy = 39 - j;
+			if(i == 40 && j == 39) cmap[i][j] = 239;
+			else if(dx*dx + dy*dy <= 1600) cmap[i][j] = 176;
+			else cmap[i][j] = ' ';
+		}
+	}
+
 	UART_transmit_string(" _____________________\n\r");
 	UART_transmit_string("|Degrees|    IR| Sonar|\n\r");
 	UART_transmit_string("|-------+------+------|\n\r");
@@ -93,6 +105,15 @@ void get_objects_sweep(){
 				continue;
 			}
 
+			double angle = (double)obstacle[o_index].r_degrees;
+			double dist = (double)obstacle[o_index].distance;
+			int width = obstacle[o_index].width;
+			int x = cos(angle*3.1415926/180.0)*dist + 40;
+			int y = 39 - sin(angle*3.1415926/180.0)*dist;
+			for(i = x; i > x-width/2; i--)
+				for(j = y; j > y-width/2; j--)
+					if(x >= 0 && x < 81 && y >= 0 && y < 40 && cmap[x][y] != ' ') cmap[i][j] == 219;
+				
 
 			static char res[50];
 			sprintf(res, "Object #%d:\n\rDist: %u\n\rWidth: %u\n\rSpan: %u - %u\n\r\n\r", o_index+1, obstacles[o_index].distance, obstacles[o_index].width , obstacles[o_index].r_degrees, obstacles[o_index].l_degrees);
@@ -130,6 +151,15 @@ void get_objects_sweep(){
 
 		if(obstacles[o_index].width > 5){
 
+			double angle = (double)obstacle[o_index].r_degrees;
+			double dist = (double)obstacle[o_index].distance;
+			int width = obstacle[o_index].width;
+			int x = cos(angle*3.1415926/180.0)*dist + 40;
+			int y = 39 - sin(angle*3.1415926/180.0)*dist;
+			for(i = x; i > x-width/2; i--)
+				for(j = y; j > y-width/2; j--)
+					if(x >= 0 && x < 81 && y >= 0 && y < 40 && cmap[x][y] != ' ') cmap[i][j] == 219;
+
 
 			static char res[50];
 			sprintf(res, "Object #%d:\n\rDist: %u\n\rWidth: %u\n\rSpan: %u - %u\n\r\n\r", o_index+1, obstacles[o_index].distance, obstacles[o_index].width , obstacles[o_index].r_degrees, obstacles[o_index].l_degrees);
@@ -140,6 +170,14 @@ void get_objects_sweep(){
 			}
 
 		}
+	}
+
+
+	for(i = 0; i < 40; i++){
+		for(j = 0; j < 81; j++){
+			UART_transmit(cmap[j][i]);
+		}
+		UART_transmit_string("\r\n");
 	}
 }
 
